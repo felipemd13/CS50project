@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block header %}
+    {% if error == 1 %}
+    <div class="alert alert-danger" role="alert">
+        {{ msgerror }}
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>date</th>
+                <th>description</th>
+                <th>Amount</th>
+                <th>Account</th>
+                <th>Purpose</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in history %}
+            <tr>
+                <th>{{ row.date }}</th>
+                <th>{{ row.description }}</th>
+                <th>{{ row.money | cop}}</th>
+                <th>{{ row.Account }}</th>
+                <th>{{ row.Subaccount }}</th>
+                <th>
+                    <form action="/history" method="post">
+                        <input name="id" type="hidden" value="{{ row.trans_id }}">
+                        <button class="btn btn-primary" name="action" type="submit" value="2">Edit</button>
+                    </form>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

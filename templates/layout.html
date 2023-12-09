@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- Agrega la libreria de bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <title>My Budget: {% block title %}{% endblock %}</title>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+
+    <body>
+        <!-- nav tag is used to show the browser where are the elements with navigations purposes-->
+        <nav id="navbar-mine">
+            <nav class="navbar navbar-expand-lg bg-light">
+                <div class="container-fluid">
+                    <!-- Logo, add-->
+                    <a class="navbar-brand" href="/"><image src="/static/MyBudget.png" alt="MyBudget" id="logo"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!-- Menu from the page-->
+                    {% if session["user_id"] %}
+                        <div class="collapse navbar-collapse" id="navbar">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="nav-link" aria-current="page" href="/history">History</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                                    <ul class="dropdown-menu">
+                                        {% for account in accounts %}
+                                        <li><a class="dropdown-item" href="/account_filter?account={{account.name}}">{{ account.name }}</a></li>
+                                        {% endfor %}
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/add_account">Add</a></li>
+                                    </ul>
+                                </li>
+                                <!-- <li class="nav-item"><a class="nav-link" href="#">Event - Friends sharing</a></li> -->
+                            </ul>
+                        </div>
+
+                        <!-- Parte de la tabla de navegación de la izquierda-->
+                        <ul class="nav justify-content-end">
+                            <li class="nav-item"><a class="nav-link" href="/logout">Log out</a></li>
+                        </ul>
+
+                    {% else %}
+
+                        <!-- Parte de la tabla de navegación de la izquierda-->
+                        <ul class="nav justify-content-end">
+                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        </ul>
+                    {% endif %}
+
+                </div>
+            </nav>
+        </nav>
+
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+
+        <main class="container-fluid py-5 text-center">
+            {% block main %} {% endblock %}
+        </main>
+
+        <footer class="container-fluid py-2 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p> “Only what gets measured, gets improved"</p>
+                        <footer class="blockquote-footer">Peter Drucker</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+            MyBudget: Spend and live consciously <br>
+            Instagram, Facebook, etc
+        </footer>
+
+    </body>
+</html>

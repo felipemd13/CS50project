@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+
+{% block main %}
+    <form action="/account_filter" method="post">
+        <input name="account" type="hidden" value="{{ account }}">
+        <div class="row">
+        <div class="col-1"></div>
+            <div class="col-2">
+                <label for="start_date" class="form-label">Start date</label>
+                <input type="date" id="start_date" name="start_date" class="form-control">
+                <div id="passwordHelpBlock" class="form-text">
+                    The date of this transaction.
+                </div>
+            </div>
+            <div class="col-2">
+                <label for="end_date" class="form-label">End date</label>
+                <input type="date" id="end_date" name="end_date" class="form-control" value="{{ today }}">
+                <div id="passwordHelpBlock" class="form-text">
+                    The date of this transaction.
+                </div>
+            </div>
+            <div class="col-1">
+                <br>
+                <button class="btn btn-primary" type="submit">Filter</button>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Summary from {{ account }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-success">
+                            <th>Abonos</th>
+                            <th>{{ summary.earn | cop }}</th>
+                        </tr>
+                        <tr class="table-danger">
+                            <th>Retiros</th>
+                            <th>{{ summary.pay | cop }}</th>
+                        </tr>
+                    </tbody>
+                    <tfooter>
+                        {% if summary.total > 0 %}
+                        <tr class="table-success">
+                        {% else %}
+                        <tr class="table-danger">
+                        {% endif %}
+                            <th>Total</th>
+                            <th>{{ summary.total | cop }}</th>
+                        </tr>
+                    </tfooter>
+                </table>
+            </div>
+        </div>
+    </form>
+    <br><br>
+
+    <h2> History from {{ account }}</h2>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>date</th>
+                <th>description</th>
+                <th>Amount</th>
+                <th>Purpose</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in history %}
+            <tr>
+                <th>{{ row.date }}</th>
+                <th>{{ row.description }}</th>
+                <th>{{ row.money | cop}}</th>
+                <th>{{ row.Subaccount }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
